@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Unity.Netcode;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : NetworkBehaviour
 {
     public int width = 20;
     public int height = 15;
@@ -18,14 +19,83 @@ public class LevelGenerator : MonoBehaviour
 
     private List<Vector3Int> pacmanSpawnPositions = new List<Vector3Int>();
     private List<Vector3Int> ghostSpawnPositions = new List<Vector3Int>();
+    public NetworkVariable<int> seedSync = new NetworkVariable<int>();
 
     void Start()
+    {
+        if (IsServer) // Server-side logic
+        {
+            GenerateLevelServerRpc(); // Call ServerRpc to generate level
+        }
+        else
+        {
+            // Client-side level visualization will happen automatically through NetworkVariable sync
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)] // ServerRpc to generate level
+    void GenerateLevelServerRpc(ServerRpcParams rpcParams = default)
+    {
+        int seed = Random.Range(int.MinValue, int.MaxValue); // Generate random seed on server
+        Random.InitState(seed); // Initialize server's random state
+        seedSync.Value = seed; // Set NetworkVariable to sync - this will sync to clients
+
+        GenerateLevel(); // Call the level generation logic on the server
+        SpawnGameElements(); // Spawn elements on the server
+    }
+
+    void GenerateLevel()
     {
         grid = new int[width, height];
         InitializeGrid();
         GeneratePaths(1, 1);
-        VisualizeLevel();
-        SpawnGameElements();
+        VisualizeLevel(); // Visualize level on the server
+    }
+
+    public override void OnNetworkSpawn() // Called on server and clients when NetworkObject is spawned
+    {
+        seedSync.OnValueChanged += OnSeedChanged; // Subscribe to seed change event
+        if (!IsServer) // Only clients need to visualize based on seed
+        {
+            GenerateLevelFromSeed(seedSync.Value); // Generate level on client based on synced seed
+        }
+    }
+
+    void OnSeedChanged(int previousValue, int newValue)
+    {
+        if (!IsServer) // Only clients react to seed change
+        {
+            GenerateLevelFromSeed(newValue); // Re-visualize level on client when seed changes
+        }
+    }
+
+    void GenerateLevelFromSeed(int seed)
+    {
+        Random.InitState(seed); // Initialize client's random state with synced seed
+        GenerateLevel(); // Re-run level generation logic (visualization part)
+    }
+
+    void VisualizeLevel() // Ensure tilemap.ClearAllTiles() is at the start
+    {
+        if (tilemap == null || wallTile == null)
+        {
+            Debug.LogError("Tilemap or Wall Tile is not assigned in the Inspector!");
+            return;
+        }
+
+        tilemap.ClearAllTiles(); // Add this line to clear previous level
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (grid[x, y] == 0)
+                {
+                    Vector3Int tilePosition = new Vector3Int(x, -y, 0);
+                    tilemap.SetTile(tilePosition, wallTile);
+                }
+            }
+        }
     }
 
     void InitializeGrid()
@@ -92,29 +162,6 @@ public class LevelGenerator : MonoBehaviour
         if (x > 0 && x < width - 1 && y > 0 && y < height - 1 && grid[x, y] == 0)
         {
             neighbors.Add(new Vector2Int(x, y));
-        }
-    }
-
-    void VisualizeLevel()
-    {
-        if (tilemap == null || wallTile == null)
-        {
-            Debug.LogError("Tilemap or Wall Tile is not assigned in the Inspector!");
-            return;
-        }
-
-        tilemap.ClearAllTiles();
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (grid[x, y] == 0)
-                {
-                    Vector3Int tilePosition = new Vector3Int(x, -y, 0);
-                    tilemap.SetTile(tilePosition, wallTile);
-                }
-            }
         }
     }
 
