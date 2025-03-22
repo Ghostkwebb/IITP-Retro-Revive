@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Movement : MonoBehaviour
+public class Movement : Mirror.NetworkBehaviour
 {
     public float moveSpeed = 5f;
     Rigidbody2D rb2d;
@@ -36,6 +36,8 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer && !isServer) return;
+
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         Vector2 newMoveDirection = Vector2.zero;

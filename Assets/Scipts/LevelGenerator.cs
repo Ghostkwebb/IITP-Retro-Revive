@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Mirror;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : Mirror.NetworkBehaviour
 {
     public int width = 20;
     public int height = 15;
@@ -21,11 +22,14 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
+        if (!isServer) return;
+
         grid = new int[width, height];
         InitializeGrid();
         GeneratePaths(1, 1);
-        VisualizeLevel();
-        SpawnGameElements();
+
+        SendLevelToClients();
+        SpawnGameElementsServer();
     }
 
     void InitializeGrid()
@@ -95,8 +99,35 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    void VisualizeLevel()
+    void VisualizeLevelServer()
     {
+
+    }
+
+    void SendLevelToClients()
+    {
+        int[] flatGrid = new int[width * height];
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                flatGrid[y * width + x] = grid[x, y];
+            }
+        }
+        VisualizeLevelClient(flatGrid); // Send the 1D array
+    }
+
+    [ClientRpc]
+    public void VisualizeLevelClient(int[] levelData)
+    {
+        Debug.Log("VisualizeLevelClient called on client.");
+        if (levelData == null)
+        {
+            Debug.LogError("Level data is null on the client!");
+            return;
+        }
+        Debug.Log("Level data length on client: " + levelData.Length);
+        
         if (tilemap == null || wallTile == null)
         {
             Debug.LogError("Tilemap or Wall Tile is not assigned in the Inspector!");
@@ -105,28 +136,32 @@ public class LevelGenerator : MonoBehaviour
 
         tilemap.ClearAllTiles();
 
-        for (int x = 0; x < width; x++)
+        for (int y = 0; y < height; y++)
         {
-            for (int y = 0; y < height; y++)
+            for (int x = 0; x < width; x++)
             {
-                if (grid[x, y] == 0)
+                // same formula => if (levelData[y * width + x] == 0)
+                if (levelData[y * width + x] == 0)
                 {
                     Vector3Int tilePosition = new Vector3Int(x, -y, 0);
                     tilemap.SetTile(tilePosition, wallTile);
                 }
+
             }
         }
+
+
     }
 
-    void SpawnGameElements()
+    void SpawnGameElementsServer()
     {
-        SpawnPlayers();
-        SpawnGhosts();
-        PlaceCoins();
-        PlaceBigCoins();
+        SpawnPlayersServer();
+        SpawnGhostsServer();
+        PlaceCoinsServer();
+        PlaceBigCoinsServer();
     }
 
-    void SpawnPlayers()
+    void SpawnPlayersServer()
     {
         pacmanSpawnPositions.Clear();
         List<Vector3Int> possibleSpawns = new List<Vector3Int>();
@@ -141,7 +176,6 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        // Shuffle possible spawn points to distribute players
         possibleSpawns.Shuffle();
 
         int playersSpawned = 0;
@@ -149,7 +183,8 @@ public class LevelGenerator : MonoBehaviour
         {
             if (playersSpawned < numberOfPlayers)
             {
-                Instantiate(pacmanPrefab, tilemap.GetCellCenterWorld(spawnPos), Quaternion.identity);
+                GameObject player = Instantiate(pacmanPrefab, tilemap.GetCellCenterWorld(spawnPos), Quaternion.identity);
+                NetworkServer.Spawn(player); // Use NetworkServer.Spawn
                 pacmanSpawnPositions.Add(spawnPos);
                 playersSpawned++;
             }
@@ -165,7 +200,7 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    void SpawnGhosts()
+    void SpawnGhostsServer()
     {
         ghostSpawnPositions.Clear();
         int centerX = width / 2;
@@ -182,7 +217,8 @@ public class LevelGenerator : MonoBehaviour
 
             if (grid[randomX, randomY] == 1 && !pacmanSpawnPositions.Contains(spawnPos) && !ghostSpawnPositions.Contains(spawnPos))
             {
-                Instantiate(ghostPrefab, tilemap.GetCellCenterWorld(spawnPos), Quaternion.identity);
+                GameObject ghost = Instantiate(ghostPrefab, tilemap.GetCellCenterWorld(spawnPos), Quaternion.identity);
+                NetworkServer.Spawn(ghost); // Use NetworkServer.Spawn
                 ghostSpawnPositions.Add(spawnPos);
                 ghostsSpawned++;
             }
@@ -194,8 +230,7 @@ public class LevelGenerator : MonoBehaviour
             Debug.LogWarning($"Could only spawn {ghostsSpawned} out of {numberOfGhosts} ghosts in the central area.");
         }
     }
-
-    void PlaceCoins()
+    void PlaceCoinsServer()
     {
         for (int x = 0; x < width; x++)
         {
@@ -222,13 +257,14 @@ public class LevelGenerator : MonoBehaviour
 
                 if (grid[x, y] == 1 && !isSpawnPoint)
                 {
-                    Instantiate(coinPrefab, tilemap.GetCellCenterWorld(coinPos), Quaternion.identity);
+                    GameObject coin = Instantiate(coinPrefab, tilemap.GetCellCenterWorld(coinPos), Quaternion.identity);
+                    NetworkServer.Spawn(coin); // Use NetworkServer.Spawn
                 }
             }
         }
     }
 
-    void PlaceBigCoins()
+    void PlaceBigCoinsServer()
     {
         int bigCoinsToPlace = 4; // You can adjust this number
         List<Vector3Int> possibleLocations = new List<Vector3Int>();
@@ -244,12 +280,12 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        // Shuffle the list to pick random locations
         possibleLocations.Shuffle();
 
         for (int i = 0; i < Mathf.Min(bigCoinsToPlace, possibleLocations.Count); i++)
         {
-            Instantiate(bigCoinPrefab, tilemap.GetCellCenterWorld(possibleLocations[i]), Quaternion.identity);
+            GameObject bigCoin = Instantiate(bigCoinPrefab, tilemap.GetCellCenterWorld(possibleLocations[i]), Quaternion.identity);
+            NetworkServer.Spawn(bigCoin); // Use NetworkServer.Spawn
         }
     }
 }
