@@ -28,10 +28,6 @@ public class LevelGenerator : NetworkBehaviour
         {
             GenerateLevelServerRpc(); // Call ServerRpc to generate level
         }
-        else
-        {
-            // Client-side level visualization will happen automatically through NetworkVariable sync
-        }
     }
 
     [ServerRpc(RequireOwnership = false)] // ServerRpc to generate level
