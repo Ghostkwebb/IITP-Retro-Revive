@@ -23,6 +23,7 @@ public class LevelGenerator : NetworkBehaviour
 
     void Start()
     {
+        Debug.Log($"LevelGenerator.Start() called. IsServer: {IsServer}, IsClient: {IsClient}");
         if (IsServer) // Server-side logic
         {
             GenerateLevelServerRpc(); // Call ServerRpc to generate level
@@ -36,12 +37,14 @@ public class LevelGenerator : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)] // ServerRpc to generate level
     void GenerateLevelServerRpc(ServerRpcParams rpcParams = default)
     {
+        Debug.Log("GenerateLevelServerRpc START");
         int seed = Random.Range(int.MinValue, int.MaxValue); // Generate random seed on server
         Random.InitState(seed); // Initialize server's random state
         seedSync.Value = seed; // Set NetworkVariable to sync - this will sync to clients
 
         GenerateLevel(); // Call the level generation logic on the server
         SpawnGameElements(); // Spawn elements on the server
+        Debug.Log("GenerateLevelServerRpc END");
     }
 
     void GenerateLevel()
@@ -77,11 +80,19 @@ public class LevelGenerator : NetworkBehaviour
 
     void VisualizeLevel() // Ensure tilemap.ClearAllTiles() is at the start
     {
+        Debug.Log("VisualizeLevel CALLED");
+        Debug.Log($"VisualizeLevel - tilemap: {(tilemap == null ? "NULL" : tilemap.name)}, wallTile: {(wallTile == null ? "NULL" : wallTile.name)}");
         if (tilemap == null || wallTile == null)
         {
             Debug.LogError("Tilemap or Wall Tile is not assigned in the Inspector!");
             return;
         }
+        if (wallTile == null)
+        {
+            Debug.LogError("Wall Tile is NULL in VisualizeLevel!"); // 3. Check if wallTile is null
+            return;
+        }
+        Debug.Log("Tilemap and Wall Tile are NOT NULL. Proceeding to visualize.");
 
         tilemap.ClearAllTiles(); // Add this line to clear previous level
 
@@ -96,6 +107,7 @@ public class LevelGenerator : NetworkBehaviour
                 }
             }
         }
+        Debug.Log("VisualizeLevel COMPLETED");
     }
 
     void InitializeGrid()
@@ -167,6 +179,7 @@ public class LevelGenerator : NetworkBehaviour
 
     void SpawnGameElements()
     {
+        Debug.Log("SpawnGameElements CALLED");
         SpawnPlayers();
         SpawnGhosts();
         PlaceCoins();
@@ -181,14 +194,13 @@ public class LevelGenerator : NetworkBehaviour
         {
             for (int y = 1; y < height - 1; y++)
             {
-                if (grid[x, y] == 1)
+                if (grid[x, y] == 1 && IsSpawnPositionValid(x, y)) // ADD IsSpawnPositionValid CHECK
                 {
                     possibleSpawns.Add(new Vector3Int(x, -y, 0));
                 }
             }
         }
 
-        // Shuffle possible spawn points to distribute players
         possibleSpawns.Shuffle();
 
         int playersSpawned = 0;
@@ -196,7 +208,14 @@ public class LevelGenerator : NetworkBehaviour
         {
             if (playersSpawned < numberOfPlayers)
             {
-                Instantiate(pacmanPrefab, tilemap.GetCellCenterWorld(spawnPos), Quaternion.identity);
+                Debug.Log($"Spawning Pac-Man at tile position: {spawnPos}, world position: {tilemap.GetCellCenterWorld(spawnPos)}");
+                GameObject pacmanInstance = Instantiate(pacmanPrefab, tilemap.GetCellCenterWorld(spawnPos), Quaternion.identity); // Store instantiated object
+                NetworkObject pacmanNetworkObject = pacmanInstance.GetComponent<NetworkObject>(); // Get NetworkObject
+                Debug.Log($"Pacman Instance after Instantiate: {(pacmanInstance == null ? "NULL" : pacmanInstance.name)}");
+                if (pacmanNetworkObject != null)
+                {
+                    pacmanNetworkObject.SpawnAsPlayerObject(NetworkManager.Singleton.LocalClient.ClientId); // Spawn as player object with owner
+                }
                 pacmanSpawnPositions.Add(spawnPos);
                 playersSpawned++;
             }
@@ -212,6 +231,12 @@ public class LevelGenerator : NetworkBehaviour
         }
     }
 
+    // NEW function to check if a spawn position is valid (not too close to walls)
+    bool IsSpawnPositionValid(int x, int y)
+    {
+        return true; 
+    }
+
     void SpawnGhosts()
     {
         ghostSpawnPositions.Clear();
@@ -219,7 +244,7 @@ public class LevelGenerator : NetworkBehaviour
         int centerY = height / 2;
         int ghostsSpawned = 0;
         int spawnAttempts = 0;
-        int maxSpawnAttempts = 10; // To prevent infinite loops
+        int maxSpawnAttempts = 50; // To prevent infinite loops
 
         while (ghostsSpawned < numberOfGhosts && spawnAttempts < maxSpawnAttempts)
         {

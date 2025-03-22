@@ -21,7 +21,11 @@ public class NetworkedMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!IsOwner) return; // Only process movement on the client that owns this object
+        if (!IsOwner)
+        {
+            return;
+        }
+
 
         if (isMoving)
         {
@@ -37,11 +41,14 @@ public class NetworkedMovement : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner) return; // Only get input and move for the local player
+        if (!IsOwner)
+        {
+            return;
+        }
+
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
-        Debug.Log($"moveX: {moveX}, moveY: {moveY}");
         Vector2 newMoveDirection = Vector2.zero;
 
         if (Mathf.Abs(moveX) > 0.5f && Mathf.Abs(moveY) < 0.5f)
@@ -59,6 +66,7 @@ public class NetworkedMovement : NetworkBehaviour
             {
                 Vector2 origin = transform.position;
                 RaycastHit2D hit = Physics2D.Raycast(origin, newMoveDirection, raycastDistance, wallLayer);
+                Debug.DrawRay(origin, newMoveDirection * raycastDistance, Color.red, 0.5f);
 
                 if (hit.collider == null)
                 {
@@ -69,17 +77,17 @@ public class NetworkedMovement : NetworkBehaviour
                     RequestMoveServerRpc(targetPosition); // Request move from server
                 }
             }
-            // else if (!isMoving) // Removed continuous move for simplicity for now
-            // {
-            //     Vector2 origin = transform.position;
-            //     RaycastHit2D hit = Physics2D.Raycast(origin, moveDirection, raycastDistance, wallLayer);
+            else if (!isMoving) // Removed continuous move for simplicity for now
+            {
+                Vector2 origin = transform.position;
+                RaycastHit2D hit = Physics2D.Raycast(origin, moveDirection, raycastDistance, wallLayer);
 
-            //     if (hit.collider == null)
-            //     {
-            //         targetPosition = (Vector2)transform.position + moveDirection;
-            //         isMoving = true;
-            //     }
-            // }
+                if (hit.collider == null)
+                {
+                    targetPosition = (Vector2)transform.position + moveDirection;
+                    isMoving = true;
+                }
+            }
         }
         if (!isMoving && Mathf.Abs(moveX) < 0.1f && Mathf.Abs(moveY) < 0.1f)
         {
@@ -105,4 +113,4 @@ public class NetworkedMovement : NetworkBehaviour
 
         if (spriteRenderer != null) spriteRenderer.flipX = direction.x < 0;
     }
-}   
+}
