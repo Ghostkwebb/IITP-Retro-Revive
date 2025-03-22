@@ -8,6 +8,7 @@ public class NetworkManagerCustom : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
+        Debug.Log("NetworkManagerCustom.OnStartServer() called."); // Add this line
         if (levelGeneratorPrefab != null)
         {
             GameObject levelGeneratorInstance = Instantiate(levelGeneratorPrefab);

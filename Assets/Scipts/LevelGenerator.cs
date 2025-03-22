@@ -22,6 +22,7 @@ public class LevelGenerator : Mirror.NetworkBehaviour
 
     void Start()
     {
+        Debug.Log("LevelGenerator.Start() called on " + (isServer ? "Server" : "Client")); // Add this line
         if (!isServer) return;
 
         grid = new int[width, height];

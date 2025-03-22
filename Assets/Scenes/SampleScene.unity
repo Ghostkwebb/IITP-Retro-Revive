@@ -523,7 +523,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   offlineSceneLoadDelay: 0
-  transport: {fileID: 0}
+  transport: {fileID: 1309599370}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -548,7 +548,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  levelGeneratorPrefab: {fileID: 0}
+  levelGeneratorPrefab: {fileID: 2053977725385724895, guid: 1b0d8bceeca894fddb71b8961bacdc38, type: 3}
 --- !u!1 &1560530183
 GameObject:
   m_ObjectHideFlags: 0
