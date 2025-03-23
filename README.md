@@ -2,7 +2,9 @@
 
 ## Project Overview
 
-This project is an "Impossible Pacman" game where each level is generated uniquely using a random walk algorithm. Players can also define their desired win score before starting a game.
+Dive into a fresh and unpredictable Pacman experience with **Impossible Pacman**! This isn't your classic arcade game. We've taken the familiar ghost-dodging, pellet-munching gameplay and added a twist: **each level is generated uniquely every time you play**. Using a random walk algorithm, the maze layout is different in every game, ensuring endless replayability and challenging you to adapt to new environments.
+
+But that's not all! Feeling like setting your own challenge? **Impossible Pacman allows you to define the win score before you start a level**. Whether you prefer a quick dash for a low score or a marathon session aiming for a high one, the choice is yours. Get ready for an "impossible" level of Pacman fun where no two games are ever the same!
 
 ## Team Details
 
@@ -39,7 +41,7 @@ You can play the game using one of the following methods:
    d. **Wait for Unity to Load:** Unity will take some time to load the project files and import assets.
    e. **Run the Game:** Once the project is loaded in the Unity editor, you can run the game by pressing the "Play" button (the triangle icon) in the top center of the Unity window.
 
-## Source (if assets)
+## Asset Source 
 
 The following external resources were used in this project:
 
