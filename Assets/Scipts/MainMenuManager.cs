@@ -5,26 +5,48 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public string gameSceneName = "MainScene"; // Name of your game scene
+    public string gameSceneName = "MainScene";
     public TMP_InputField winScoreInputField;
     public Slider volumeSlider;
+    public int maxWinScore = 5000; 
+
+    private GameObject persistentMusicObject;
 
     void Start()
     {
-        // Initialize volume slider to current AudioListener volume
         volumeSlider.value = AudioListener.volume;
+
+        persistentMusicObject = GameObject.Find("PersistentBackgroundMusic");
+        if (persistentMusicObject == null)
+        {
+            persistentMusicObject = new GameObject("PersistentBackgroundMusic");
+            AudioSource audioSource = persistentMusicObject.AddComponent<AudioSource>();
+            Debug.LogWarning("PersistentBackgroundMusic GameObject not found in scene, creating it dynamically. Ensure it's properly configured in MainMenuScene.");
+        }
+
+        AudioSource musicSource = persistentMusicObject.GetComponent<AudioSource>();
+        if (musicSource != null && !musicSource.isPlaying)
+        {
+            musicSource.Play();
+        }
+
+        DontDestroyOnLoad(persistentMusicObject);
     }
 
     public void PlayGame()
     {
-        // Save Win Score to PlayerPrefs
-        int winScore = 1000; // Default win score
+        int winScore = 1000; 
         if (int.TryParse(winScoreInputField.text, out int parsedScore))
         {
-            winScore = Mathf.Max(1, parsedScore); // Ensure win score is at least 1
+            winScore = Mathf.Max(1, parsedScore); 
+            winScore = Mathf.Min(winScore, maxWinScore);
+        }
+        else
+        {
+            Debug.LogWarning("Invalid Win Score input, using default value.");
         }
         PlayerPrefs.SetInt("WinScore", winScore);
-        PlayerPrefs.Save(); // Important to save PlayerPrefs
+        PlayerPrefs.Save(); 
 
         SceneManager.LoadScene(gameSceneName);
     }

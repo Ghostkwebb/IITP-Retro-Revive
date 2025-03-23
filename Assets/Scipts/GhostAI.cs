@@ -1,4 +1,3 @@
-// GhostAI.cs (Modified - Respawn Function Removed)
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ public class GhostAI : MonoBehaviour
 {
     public float moveSpeed = 5f;
     Rigidbody2D rb2d;
-    SpriteRenderer spriteRenderer; // Get the SpriteRenderer
+    SpriteRenderer spriteRenderer; 
     public LayerMask wallLayer;
     public float raycastDistance = 1f;
 
@@ -17,14 +16,14 @@ public class GhostAI : MonoBehaviour
     private Vector2 moveDirection;
     private GameObject pacman;
     private LevelGenerator levelGenerator;
-    private Color originalColor; // Store original color
-    private bool isVulnerable = false; // Track vulnerability state
+    private Color originalColor;
+    private bool isVulnerable = false; 
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>(); // Get the SpriteRenderer component
-        originalColor = spriteRenderer.color; // Store the original color
+        spriteRenderer = GetComponent<SpriteRenderer>(); 
+        originalColor = spriteRenderer.color; 
         targetPosition = transform.position;
         FindPacman();
         FindLevelGenerator();
@@ -66,14 +65,13 @@ public class GhostAI : MonoBehaviour
     {
         if (pacman == null || levelGenerator == null) return;
 
-        // Change color based on vulnerability state
         if (isVulnerable)
         {
             spriteRenderer.color = Color.green;
         }
         else
         {
-            spriteRenderer.color = originalColor; // Revert to original color
+            spriteRenderer.color = originalColor; 
         }
 
         if (!isMoving)
@@ -172,7 +170,7 @@ public class GhostAI : MonoBehaviour
     }
 
 
-    public void SetVulnerable(bool vulnerable) // Public method to set vulnerability from other scripts
+    public void SetVulnerable(bool vulnerable) 
     {
         isVulnerable = vulnerable;
     }

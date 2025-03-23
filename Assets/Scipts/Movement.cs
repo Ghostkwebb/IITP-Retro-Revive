@@ -6,12 +6,12 @@ public class Movement : MonoBehaviour
     public float moveSpeed = 5f;
     Rigidbody2D rb2d;
     SpriteRenderer spriteRenderer;
-    public TileBase wallTile; // Assign your wall tile in the Inspector
+    public TileBase wallTile; 
 
     private Vector2 targetPosition;
     private bool isMoving = false;
     private Vector2 moveDirection;
-    public float raycastDistance = 1f; // Adjust if needed
+    public float raycastDistance = 1f; 
     public LayerMask wallLayer;
 
     void Start()
@@ -64,7 +64,7 @@ public class Movement : MonoBehaviour
                     UpdateRotationAndFlip(moveDirection);
                 }
             }
-            else if (!isMoving) // Continue moving in the same direction if still holding
+            else if (!isMoving) 
             {
                 Vector2 origin = transform.position;
                 RaycastHit2D hit = Physics2D.Raycast(origin, moveDirection, raycastDistance, wallLayer);
