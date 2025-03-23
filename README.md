@@ -11,7 +11,7 @@ But that's not all! Do you feel like setting your challenge? **Impossible Pacman
 | Screenshot 1                                  | Screenshot 2                                  |
 | :-------------------------------------------: | :-------------------------------------------: |
 | <img src="[path/to/your/screenshot1.png](https://github.com/user-attachments/assets/e4b4f503-65b8-46eb-9e1d-7cc0dfaa455a)" width="200"> | <img src="[path/to/your/screenshot2.png](https://github.com/user-attachments/assets/57edeb55-e161-4939-b0e7-ec87b02f8d37)" width="200"> |
-| Caption for Screenshot 1 (optional)         | Caption for Screenshot 2 (optional)         |
+|                   Game Logo                  |                In-Game Screenshot              |
 
 ## Team Details
 
