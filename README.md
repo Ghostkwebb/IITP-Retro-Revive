@@ -25,11 +25,11 @@ You can play the game using one of the following methods:
 **1. Using the Executable:**
 
 a. Navigate to the [Releases](link_to_your_releases_page) section of this GitHub repository.
-b. Look for the latest release or a specific version you want to play.
-c. Download the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
-d. Once the download is complete, locate the executable file on your computer.
-e. Double-click the executable file to run the game. The game should start without requiring any additional software installation (assuming you are on a compatible operating system).
-
+   b. Look for the latest release or a specific version you want to play.
+   c. Download the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
+   d. Once the download is complete, locate the executable file on your computer.
+   e. Double-click the executable file to run the game. The game should start without requiring any additional software installation (assuming you are on a compatible operating system).
+   
 **2. Cloning the Repository and Using Unity:**
 
 a. **Prerequisites:** Ensure you have **Unity version 6000.0.41f1** installed on your computer. You can download specific Unity versions from the Unity Hub or the Unity website.
@@ -38,10 +38,9 @@ b. **Clone the Repository:**
    * Navigate to the directory where you want to save the project files.
    * Run the following command to clone the repository:
      ```bash
-     git clone [repository_url]
+     git clone https://github.com/Ghostkwebb/IITP-Retro-Revive
      ```
-     (Replace `[repository_url]` with the actual URL of your GitHub repository).
-c. **Open the Project in Unity:**
+   *Open the Project in Unity:
    * Launch the Unity Hub (if you have it) or open the Unity application (version 6000.0.41f1).
    * In Unity Hub, click on "Add" and browse to the directory where you cloned the repository. Select the project folder and click "Add Project".
    * Alternatively, in the Unity application, go to "File" -> "Open Project..." and navigate to the cloned repository folder. Select the project and click "Open".
