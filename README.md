@@ -24,11 +24,11 @@ You can play the game using one of the following methods:
 
 **1. Using the Executable:**
 
-a. Navigate to the [Releases](link_to_your_releases_page) section of this GitHub repository.
-   b. Look for the latest release or a specific version you want to play.
-   c. Download the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
-   d. Once the download is complete, locate the executable file on your computer.
-   e. Double-click the executable file to run the game. The game should start without requiring any additional software installation (assuming you are on a compatible operating system).
+1. **Navigate** to the [Releases](link_to_your_releases_page) section of this GitHub repository.
+2. **Look** for the latest release or a specific version you want to play.
+3. **Download** the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
+4. **Locate** the downloaded executable file on your computer.
+5. **Run** the game by double-clicking the executable file. The game should start without requiring any additional software installation (assuming you are on a compatible operating system).
    
 **2. Cloning the Repository and Using Unity:**
 
