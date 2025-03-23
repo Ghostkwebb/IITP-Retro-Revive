@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PacmanCollision : MonoBehaviour
 {
@@ -18,19 +19,9 @@ public class PacmanCollision : MonoBehaviour
     {
         if (other.CompareTag("Ghost"))
         {
-            // Pac-Man becomes a ghost
-            if (ghostSprite != null)
-            {
-                spriteRenderer.sprite = ghostSprite;
-            }
+            int currentScene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentScene);
 
-            // Disable Pac-Man's movement script (or change its behavior)
-            if (pacmanMovement != null)
-            {
-                pacmanMovement.enabled = false; // Simple way to stop movement
-            }
-
-            Debug.Log("Pac-Man hit a ghost and became a ghost!");
         }
         else if (other.CompareTag("Coin"))
         {
