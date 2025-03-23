@@ -28,7 +28,7 @@ Go to this link to play the game: https://sharemygame.com/@Ghostkwebb/impossibel
 
 **2. Using the Executable:**
 
-1. **Navigate** to the [Releases](link_to_your_releases_page) section of this GitHub repository.
+1. **Navigate** to the [Releases](https://github.com/Ghostkwebb/IITP-Retro-Revive/releases) section of this GitHub repository.
 2. **Look** for the latest release or a specific version you want to play.
 3. **Download** the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
 4. **Locate** the downloaded executable file on your computer.
