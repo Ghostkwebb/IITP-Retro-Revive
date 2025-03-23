@@ -1009,6 +1009,8 @@ MonoBehaviour:
   gameSceneName: SampleScene
   winScoreInputField: {fileID: 483943095}
   volumeSlider: {fileID: 1737904810}
+  maxWinScore: 5000
+  backgroundMusicClip: {fileID: 8300000, guid: 23b532280b5f44e258efd90074bc5318, type: 3}
 --- !u!1 &937239126
 GameObject:
   m_ObjectHideFlags: 0
