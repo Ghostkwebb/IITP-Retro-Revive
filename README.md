@@ -22,15 +22,20 @@ But that's not all! Do you feel like setting your challenge? **Impossible Pacman
 
 You can play the game using one of the following methods:
 
-**1. Using the Executable:**
+**1. Web wesion**
 
-a. **Navigate** to the [Releases](link_to_your_releases_page) section of this GitHub repository.
-b. **Look** for the latest release or a specific version you want to play.
-c. **Download** the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
-d. **Locate** the downloaded executable file on your computer.
-e. **Run** the game by double-clicking the executable file. The game should start without requiring any additional software installation (assuming you are on a compatible operating system).
+Go to this link to play the game: https://sharemygame.com/@Ghostkwebb/impossibel-pacman
+
+**2. Using the Executable:**
+
+1. **Navigate** to the [Releases](link_to_your_releases_page) section of this GitHub repository.
+2. **Look** for the latest release or a specific version you want to play.
+3. **Download** the executable file (it might be a `.exe` file for Windows, a `.app` file for macOS, or a similar format depending on the platform).
+4. **Locate** the downloaded executable file on your computer.
+5. **Extract** the zip according to your platform using any unzipper.
+6. **Run** the game by double-clicking the executable file. The game should start without requiring any additional software installation (assuming you are on a compatible operating system).
    
-**2. Cloning the Repository and Using Unity:**
+**3. Cloning the Repository and Using Unity:**
 
 a. **Prerequisites:** Ensure you have **Unity version 6000.0.41f1** installed on your computer. You can download specific Unity versions from the Unity Hub or the Unity website.
 b. **Clone the Repository:**
