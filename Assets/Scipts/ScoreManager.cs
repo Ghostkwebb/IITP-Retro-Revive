@@ -2,6 +2,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Xml.Serialization;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -11,12 +12,20 @@ public class ScoreManager : MonoBehaviour
     public string winSceneName = "WinScene"; // If you have a WinScene
 
     public GameObject winScreenUI;
-    public TMP_Text finalScoreTextUI;
-    public string gameSceneName = "MainScene"; // Add this line, assuming your game scene is "MainScene"
+    public string gameSceneName = "MainScene"; 
 
     void Start()
     {
-        // Make sure win screen is initially hidden
+        if (PlayerPrefs.HasKey("WinScore"))
+        {
+            winScore = PlayerPrefs.GetInt("WinScore");
+            Debug.Log("Win Score loaded from PlayerPrefs: " + winScore);
+        }
+        else
+        {
+            Debug.Log("Win Score PlayerPrefs not found, using default: " + winScore);
+        }
+
         if (winScreenUI != null)
         {
             winScreenUI.SetActive(false);
@@ -43,12 +52,6 @@ public class ScoreManager : MonoBehaviour
             if (winScreenUI != null)
             {
                 winScreenUI.SetActive(true);
-
-                // Optional: Update the Final Score Text on the Win Screen
-                if (finalScoreTextUI != null)
-                {
-                    finalScoreTextUI.text = "Final Score: " + score.ToString();
-                }
             }
 
             Time.timeScale = 0f; // Pause the game when win screen appears
@@ -71,5 +74,9 @@ public class ScoreManager : MonoBehaviour
         Application.Quit(); // Quit the application (works in builds)
 #endif
         Debug.Log("Exit Game Button Clicked"); // Optional debug log
+    }
+
+    public void MainMenu(){
+        SceneManager.LoadScene("MainMenuScene");
     }
 }

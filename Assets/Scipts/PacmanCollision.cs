@@ -1,4 +1,3 @@
-// PacmanCollision.cs (Updated - Restart Background Music on Scene Load)
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -16,21 +15,19 @@ public class PacmanCollision : MonoBehaviour
     private Coroutine powerUpCoroutine;
     private GhostAI[] ghosts;
 
-    // Audio Sources for sound effects (Drag these in Inspector)
     public AudioSource coinSoundEffect;
     public AudioSource deathSoundEffect;
-    public AudioSource backgroundMusic; // Background music is now on Pacman itself
+    public AudioSource backgroundMusic;
 
     void Start()
     {
-        Time.timeScale = 1f; // **RESET Time.timeScale to 1f at the start of the scene**
+        Time.timeScale = 1f; 
 
         pacmanMovement = GetComponent<Movement>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         scoreManager = FindFirstObjectByType<ScoreManager>();
-        ghosts = Object.FindObjectsOfType<GhostAI>(true); // Obsolete warning fix
+        ghosts = Object.FindObjectsOfType<GhostAI>(true); 
 
-        // Get background music AudioSource from THIS GameObject (Pacman)
         backgroundMusic = GetComponent<AudioSource>();
         if (backgroundMusic == null)
         {
@@ -38,10 +35,10 @@ public class PacmanCollision : MonoBehaviour
         }
         else
         {
-            if (!backgroundMusic.isPlaying) // **START BACKGROUND MUSIC IF NOT ALREADY PLAYING - ADDED HERE**
+            if (!backgroundMusic.isPlaying)
             {
                 backgroundMusic.Play();
-                Debug.Log("Background Music Started (or restarted on scene load).");
+                backgroundMusic.enabled = true;
             }
         }
     }
@@ -53,25 +50,20 @@ public class PacmanCollision : MonoBehaviour
             GhostAI ghostAI = other.GetComponent<GhostAI>();
             if (isPoweredUp)
             {
-                // Pacman is powered up, eat the ghost
                 if (scoreManager != null)
                 {
                     scoreManager.AddScore(ghostEatScore);
                 }
-                Destroy(other.gameObject); // Destroy the ghost GameObject - NO RESPAWN
-                Debug.Log("Pacman ate a ghost! (No Respawn)");
+                Destroy(other.gameObject); 
             }
             else
             {
-                // Pacman is not powered up, game over
-                Debug.Log("Pacman is about to die! - Checking death sound effect");
 
-                Time.timeScale = 0f; // **IMMEDIATE GAME PAUSE - ADDED HERE**
+                Time.timeScale = 0f;
 
                 if (backgroundMusic != null)
                 {
-                    backgroundMusic.Stop(); // Stop background music on death
-                    Debug.Log("Background Music Stopped.");
+                    backgroundMusic.enabled = false;
                 }
                 else
                 {
@@ -80,24 +72,20 @@ public class PacmanCollision : MonoBehaviour
 
                 if (deathSoundEffect != null)
                 {
-                    Debug.Log("Death sound effect IS assigned.");
-                    Debug.Log("Attempting to play death sound effect...");
+                    backgroundMusic.Stop(); 
                     deathSoundEffect.Play();
-                    Debug.Log("deathSoundEffect.Play() called.");
                 }
                 else
                 {
                     Debug.LogWarning("Death sound effect is NOT assigned! - Sound will not play.");
                 }
 
-                StartCoroutine(ReloadSceneWithDelay()); // Call coroutine for delayed reload
-                Debug.Log("Ghost ate Pacman! - Scene Reload initiated with delay.");
+                StartCoroutine(ReloadSceneWithDelay()); 
             }
 
         }
         else if (other.CompareTag("Coin"))
         {
-            // Collect the coin
             if (scoreManager != null)
             {
                 scoreManager.AddScore(10);
@@ -110,7 +98,6 @@ public class PacmanCollision : MonoBehaviour
         }
         else if (other.CompareTag("BigCoin"))
         {
-            // Collect the big coin and activate power-up
             if (scoreManager != null)
             {
                 scoreManager.AddScore(50);
@@ -123,7 +110,6 @@ public class PacmanCollision : MonoBehaviour
     void StartPowerUp()
     {
         isPoweredUp = true;
-        Debug.Log("Power-Up started!");
 
         foreach (GhostAI ghost in ghosts)
         {
@@ -146,7 +132,6 @@ public class PacmanCollision : MonoBehaviour
     void EndPowerUp()
     {
         isPoweredUp = false;
-        Debug.Log("Power-Up ended!");
 
         foreach (GhostAI ghost in ghosts)
         {
@@ -161,8 +146,8 @@ public class PacmanCollision : MonoBehaviour
 
     IEnumerator ReloadSceneWithDelay()
     {
-        float startTime = Time.unscaledTime; // Record unscaled start time
-        while (Time.unscaledTime < startTime + 3.2f) // Loop based on unscaled time
+        float startTime = Time.unscaledTime; 
+        while (Time.unscaledTime < startTime + 3.2f) 
         {
             yield return null; // Wait for the next frame (unscaled)
         }
