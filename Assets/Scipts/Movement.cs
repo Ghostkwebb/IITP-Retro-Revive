@@ -3,23 +3,26 @@ using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 5f; // Movement speed
     Rigidbody2D rb2d;
     SpriteRenderer spriteRenderer;
-    public TileBase wallTile; 
+    public TileBase wallTile; // Unused variable, consider removing
 
     private Vector2 targetPosition;
-    private bool isMoving = false;
+    private bool isMoving = false; // Moving flag
     private Vector2 moveDirection;
-    public float raycastDistance = 1f; 
+    public float raycastDistance = 1f;
     public LayerMask wallLayer;
 
+    // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         targetPosition = transform.position;
     }
+
+    // FixedUpdate is called at a fixed interval, good for physics
     void FixedUpdate()
     {
         if (isMoving)
@@ -34,6 +37,7 @@ public class Movement : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
         float moveX = Input.GetAxis("Horizontal");
@@ -64,7 +68,7 @@ public class Movement : MonoBehaviour
                     UpdateRotationAndFlip(moveDirection);
                 }
             }
-            else if (!isMoving) 
+            else if (!isMoving)
             {
                 Vector2 origin = transform.position;
                 RaycastHit2D hit = Physics2D.Raycast(origin, moveDirection, raycastDistance, wallLayer);
@@ -82,6 +86,7 @@ public class Movement : MonoBehaviour
         }
     }
 
+    // Updates rotation and sprite flip based on movement direction
     void UpdateRotationAndFlip(Vector2 direction)
     {
         if (direction.y > 0) transform.rotation = Quaternion.Euler(0, 0, 90);
@@ -89,6 +94,6 @@ public class Movement : MonoBehaviour
         else if (direction.x > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
         else if (direction.x < 0) transform.rotation = Quaternion.Euler(0, 0, 0);
 
-        if (spriteRenderer != null) spriteRenderer.flipX = direction.x < 0;
+        if (spriteRenderer != null) spriteRenderer.flipX = direction.x < 0; // Flip sprite for left movement
     }
 }
