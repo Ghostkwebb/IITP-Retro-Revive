@@ -53,6 +53,7 @@ public class LevelGenerator : NetworkBehaviour
 
     public override void OnNetworkSpawn() // Called on server and clients when NetworkObject is spawned
     {
+        Debug.Log($"LevelGenerator.OnNetworkSpawn() called. IsServer: {IsServer}, IsClient: {IsClient}, NetworkObject.IsSpawned: {NetworkObject.IsSpawned}");
         seedSync.OnValueChanged += OnSeedChanged; // Subscribe to seed change event
         if (!IsServer) // Only clients need to visualize based on seed
         {
@@ -62,6 +63,7 @@ public class LevelGenerator : NetworkBehaviour
 
     void OnSeedChanged(int previousValue, int newValue)
     {
+        Debug.Log($"LevelGenerator.OnSeedChanged() called. Previous Seed: {previousValue}, New Seed: {newValue}. IsServer: {IsServer}, IsClient: {IsClient}");
         if (!IsServer) // Only clients react to seed change
         {
             GenerateLevelFromSeed(newValue); // Re-visualize level on client when seed changes
@@ -184,6 +186,7 @@ public class LevelGenerator : NetworkBehaviour
 
     void SpawnPlayers()
     {
+        Debug.Log("SpawnPlayers() CALLED - START");
         pacmanSpawnPositions.Clear();
         List<Vector3Int> possibleSpawns = new List<Vector3Int>();
         for (int x = 1; x < width - 1; x++)
@@ -225,6 +228,7 @@ public class LevelGenerator : NetworkBehaviour
         {
             Debug.LogWarning("Could not find enough spawn points for all Pac-Men.");
         }
+        Debug.Log("SpawnPlayers() CALLED - END"); 
     }
 
     // NEW function to check if a spawn position is valid (not too close to walls)
