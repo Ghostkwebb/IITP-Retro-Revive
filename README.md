@@ -40,7 +40,7 @@ b. **Clone the Repository:**
      ```bash
      git clone https://github.com/Ghostkwebb/IITP-Retro-Revive
      ```
-   *Open the Project in Unity:
+   * Open the Project in Unity:
    * Launch the Unity Hub (if you have it) or open the Unity application (version 6000.0.41f1).
    * In Unity Hub, click on "Add" and browse to the directory where you cloned the repository. Select the project folder and click "Add Project".
    * Alternatively, in the Unity application, go to "File" -> "Open Project..." and navigate to the cloned repository folder. Select the project and click "Open".
