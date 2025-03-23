@@ -6,6 +6,12 @@ Dive into a fresh and unpredictable Pacman experience with **Impossible Pacman**
 
 But that's not all! Do you feel like setting your challenge? **Impossible Pacman allows you to define the win score before you start a level**. Whether you prefer a quick dash for a low score or a marathon session aiming for a high one, the choice is yours. Get ready for an "impossible" level of Pacman fun where no two games are the same!
 
+## Screenshots
+
+![Game Logo](https://github.com/user-attachments/assets/e4b4f503-65b8-46eb-9e1d-7cc0dfaa455a)
+![Uploading Screenshot 2025-03-23 at 9.13.00 PM.png…]()
+
+
 ## Team Details
 
 * **Sharad Mayank Sinha** - SRM IST - <ss4489@srmist.edu.in>
