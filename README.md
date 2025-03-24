@@ -1,39 +1,5 @@
 # Impossible Pacman
 
-**Index**
-
-1.  **Project Overview**
-    * Introduction
-    * Key Features
-        * Unique Level Generation
-        * Customizable Win Score
-2.  **Screenshots**
-    * Game Logo
-    * In-Game Screenshot
-3.  **Team Details**
-    * Sharad Mayank Sinha
-    * Gaurav mahaptra
-4.  **Step-by-Step Setup Instructions**
-    * Web Version
-    * Using the Executable
-        * Navigate to Releases
-        * Download Executable
-        * Locate Downloaded File
-        * Extract Zip
-        * Run Game
-    * Cloning the Repository and Using Unity
-        * Prerequisites
-        * Clone the Repository
-        * Open Project in Unity
-        * Wait for Unity to Load
-        * Run the Game
-5.  **Asset Source**
-    * Game Assets
-    * Background Music
-    * Pacman Destroy Sound
-    * Pacman Coin Sound
-    * Random Walk Algorithm Inspiration
-
 ## Project Overview
 
 Dive into a fresh and unpredictable Pacman experience with **Impossible Pacman**! This isn't your classic arcade game. We've taken the familiar ghost-dodging, pellet-munching gameplay and added a twist: **each level is generated uniquely every time you play**. Using a random walk algorithm, the maze layout is different in every game, ensuring endless replayability and challenging you to adapt to new environments.
@@ -50,7 +16,7 @@ But that's not all! Do you feel like setting your challenge? **Impossible Pacman
 ## Team Details
 
 * **Sharad Mayank Sinha** - SRM IST - <ss4489@srmist.edu.in>
-* **Gaurav mahaptra** - SRM IST - <gm6456@srmist.edu.in>
+* **Gaurav Mahapatra** - SRM IST - <gm6456@srmist.edu.in>
 
 ## Step-by-Step Setup Instructions
 
