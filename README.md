@@ -11,7 +11,7 @@ But that's not all! Do you feel like setting your challenge? **Impossible Pacman
 | Screenshot 1                                  | Screenshot 2                                  |
 | :-------------------------------------------: | :-------------------------------------------: |
 | <img src="https://github.com/user-attachments/assets/a6128c16-a121-4983-9221-ccb4ef9c73be" width="400"> | <img src="https://github.com/user-attachments/assets/57edeb55-e161-4939-b0e7-ec87b02f8d37" width="400"> |
-|                   Game Home Screen (You Can Enter Win Score to decide you goal score which will let you win)                  |                In-Game Screenshot              |
+|                   Game Home Screen               |                In-Game Screenshot              |
 
 
 ## Team Details
