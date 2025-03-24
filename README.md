@@ -22,7 +22,7 @@ But that's not all! Do you feel like setting your challenge? **Impossible Pacman
 
 You can play the game using one of the following methods:
 
-**1. Web wesion**
+**1. Web Version**
 
 Go to this link to play the game: https://sharemygame.com/@Ghostkwebb/impossibel-pacman
 
