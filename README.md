@@ -24,7 +24,7 @@ You can play the game using one of the following methods:
 
 **1. Web Version**
 
-Go to this link to play the game: https://sharemygame.com/@Ghostkwebb/impossibel-pacman
+   Go to this link to play the game: https://sharemygame.com/@Ghostkwebb/impossibel-pacman
 
 **2. Using the Executable:**
 
